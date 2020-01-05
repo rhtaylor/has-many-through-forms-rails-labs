@@ -4,4 +4,10 @@
 # Examples:
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+#   Mayor.create(name: 'Emanuel', city: cities.first) 
+
+post = Post.create(title: "OMG", content: "I typed this to fill space, cyberspace")
+post.categories.build(name: "cat-category") 
+post.save 
+
+user = User.create(username: "Mr Robot")

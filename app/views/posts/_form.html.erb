@@ -1,1 +1,36 @@
+<%= form_for @post do |f|  %> 
+<%= f.label :title %>
+<%= f.text_field :title %>
+<%= f.label :content %>
+<%= f.text_field :content %> 
+<%= f.fields_for :users do |u| %>
+    <%= u.label :username %>
+    <%= u.text_field :username %>
+    <% end %> 
+</br>
+<%= f.collection_check_boxes :category_ids, Category.all, :id, :name %>
+</br> 
 
+<datalist id="categories_autocomplete">
+    <% Category.all.each do |category| %>
+      <option value="<%= category.name %>">
+    <% end %>
+  </datalist>
+  
+ <%= f.fields_for :categories do |c| %> 
+ <%= c.label :name %>
+ <%= c.text_field :name, :include_blank => 'none' , :id => "post_categories_attributes_0_name" %> 
+<% end %> 
+</input>
+</br>
+
+<datalist id="username" >
+<% User.all.each do |user| %> 
+    <option value="<%= user.username %>">
+    <% end %>
+    </datalist>
+    
+
+
+<%= f.submit %>
+<% end %>

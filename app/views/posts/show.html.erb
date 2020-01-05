@@ -1,1 +1,42 @@
+<%  %>
+<h1>Title: <%= @post.title %></h1>
+<h1>Content: <%= @post.content %></h1>
+<h1>Categories: <% @post.categories.each do |cat| %></h1>
+<h1><%= cat.name %></h1> 
+<% end %>
+<h1>Comments: </h1>
+<% @post.comments.each do |comment|  %> 
+    
+    <% user = User.find(comment.user_id) if comment.user_id %>
+    
+    <p><%= user.try(:username) %> says: <%= comment.content %></p> 
+    <h1><%= link_to user.username, user_path(user) if user %></h1> 
+    
+<% end %>
+
+<h1>Users: </h1>
+<% comment = @post.comments %>  
+<%  %>
+<% user = comment.map do  |x| %>
+   <% if x.user_id  %> 
+   <% x %>
+    <% end %>
+    <% end %>
+<% users = user.uniq %> 
+<%  %> 
+<% users.each do |find_obj| %> 
+<% user_obj = User.find(find_obj) if find_obj %>
+<h1><%= user_obj.try(:username) %></h1>
+<h1><%end %></h1>
+<% # this is going through and all the comments don't have user_ids so this is not saving properly %>
+<%= form_for  @comment do |f| %> 
+<%= f.collection_select :user_id, User.all,:id,:username, :include_blank => true %>
+<%= f.text_field :user,  :id => "comment_user_attributes_username"   %>
+
+<h4>add new comment: <%= f.text_field :content %></h4>  
+
+<%= f.hidden_field :post_id, value: @post.id %>
+<%= f.submit %> 
+
+<% end %>
 
